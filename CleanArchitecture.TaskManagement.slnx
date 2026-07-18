@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="CleanArchitecture.TaskManagement.Api/CleanArchitecture.TaskManagement.Api.csproj" />
+  <Project Path="CleanArchitecture.TaskManagement.Application/CleanArchitecture.TaskManagement.Application.csproj" />
+  <Project Path="CleanArchitecture.TaskManagement.Domain/CleanArchitecture.TaskManagement.Domain.csproj" />
+  <Project Path="CleanArchitecture.TaskManagement.Infrastructure/CleanArchitecture.TaskManagement.Infrastructure.csproj" />
+  <Project Path="CleanArchitecture.TaskManagement.Tests/CleanArchitecture.TaskManagement.Tests.csproj" />
+</Solution>
