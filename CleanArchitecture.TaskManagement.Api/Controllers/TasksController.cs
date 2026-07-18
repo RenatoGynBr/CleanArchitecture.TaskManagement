@@ -1,6 +1,8 @@
 ﻿using CleanArchitecture.TaskManagement.Api.Contracts.Tasks;
+using CleanArchitecture.TaskManagement.Application.Tasks;
 using CleanArchitecture.TaskManagement.Application.Tasks.CompleteTask;
 using CleanArchitecture.TaskManagement.Application.Tasks.CreateTask;
+using CleanArchitecture.TaskManagement.Application.Tasks.GetTaskById;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArchitecture.TaskManagement.Api.Controllers;
@@ -44,10 +46,22 @@ public sealed class TasksController : ControllerBase
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public IActionResult GetById(int id)
+    public async Task<IActionResult> GetById(
+        int id,
+        [FromServices] IGetTaskByIdUseCase useCase,
+        CancellationToken cancellationToken)
     {
-        // Implement GetTaskByIdUseCase using the same pattern.
-        return Ok();
+        var result = await useCase.ExecuteAsync(id, cancellationToken);
+
+        if (result.IsFailure)
+        {
+            return NotFound(new
+            {
+                error = result.Error
+            });
+        }
+
+        return Ok(result.Value);
     }
 
     [HttpPatch("{id:int}/complete")]
@@ -76,10 +90,9 @@ public sealed class TasksController : ControllerBase
     [HttpDelete("{id:int}")]
     public async Task<IActionResult> Delete(
         int id,
-        //[FromServices] DeleteTaskUseCase useCase,
+        [FromServices] DeleteTaskUseCase useCase,
         CancellationToken cancellationToken)
     {
-        /*
         var result = await useCase.ExecuteAsync(
             id,
             cancellationToken);
@@ -90,7 +103,7 @@ public sealed class TasksController : ControllerBase
                 error = result.Error
             });
         }
-        */
+        
         return NoContent();
     }
 
