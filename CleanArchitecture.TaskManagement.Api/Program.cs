@@ -1,10 +1,22 @@
-using CleanArchitecture.TaskManagement.Application;
+﻿using CleanArchitecture.TaskManagement.Application;
 using CleanArchitecture.TaskManagement.Infrastructure;
 using CleanArchitecture.TaskManagement.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// CORS (Allow Angular to call API)
+builder.Services.AddCors();
+//builder.Services.AddCors(options =>
+//{
+//    options.AddPolicy("AllowAngular", policy =>
+//    {
+//        policy.WithOrigins("http://localhost:4200")
+//              .AllowAnyHeader()
+//              .AllowAnyMethod();
+//    });
+//});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -35,6 +47,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+//app.UseCors("AllowAngular");      // Must be before Auth
 
 app.UseAuthentication();
 app.UseAuthorization();
