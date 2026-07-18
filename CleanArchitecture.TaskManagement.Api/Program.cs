@@ -1,5 +1,6 @@
 using CleanArchitecture.TaskManagement.Application;
 using CleanArchitecture.TaskManagement.Infrastructure;
+using CleanArchitecture.TaskManagement.Infrastructure.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +15,17 @@ builder.Services.AddApplication();
 builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
+
+// Seed demo data (best effort). Do not throw on failure in production scenarios.
+try
+{
+    await DataSeeder.SeedAsync(app.Services);
+}
+catch (Exception ex)
+{
+    // Log the error in real apps. Keep startup resilient in dev/demo scenarios.
+    Console.WriteLine($"Data seeding failed: {ex.Message}");
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
