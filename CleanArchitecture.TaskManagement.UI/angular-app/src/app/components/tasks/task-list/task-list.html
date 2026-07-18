@@ -1,0 +1,68 @@
+<div class="dashboard">
+  
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div>
+      <h1>My Tasks 📋</h1>
+      <p>Welcome, {{ authService.currentUser()?.fullName }}</p>
+    </div>
+    <div class="header-actions">
+      <button class="btn-primary" (click)="showForm.set(!showForm())">
+        {{ showForm() ? '✕ Cancel' : '+ New Task' }}
+      </button>
+      <button class="btn-outline" (click)="authService.logout()">
+        Logout
+      </button>
+    </div>
+  </header>
+  <!-- Stats Cards -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <span class="stat-number">{{ tasks().length }}</span>
+      <span class="stat-label">Total Tasks</span>
+    </div>
+    <div class="stat-card success">
+      <span class="stat-number">{{ completedCount() }}</span>
+      <span class="stat-label">Completed</span>
+    </div>
+    <div class="stat-card warning">
+      <span class="stat-number">{{ pendingCount() }}</span>
+      <span class="stat-label">Pending</span>
+    </div>
+  </div>
+  <!-- Task Creation Form -->
+  @if (showForm()) {
+    <app-task-form (taskSubmitted)="onTaskCreated($event)" />
+  }
+  <!-- Filter Buttons -->
+  <div class="filter-row">
+    <button 
+      [class.active]="filterCompleted() === null"
+      (click)="setFilter(null)">All</button>
+    <button 
+      [class.active]="filterCompleted() === false"
+      (click)="setFilter(false)">Pending</button>
+    <button 
+      [class.active]="filterCompleted() === true"
+      (click)="setFilter(true)">Completed</button>
+  </div>
+  <!-- Loading State -->
+  @if (isLoading()) {
+    <div class="loading-spinner">Loading your tasks...</div>
+  }
+  <!-- Task List -->
+  @if (!isLoading()) {
+    @if (filteredTasks().length === 0) {
+      <div class="empty-state">
+        <p>🎉 No tasks here! Add a new task to get started.</p>
+      </div>
+    }
+    @for (task of filteredTasks(); track task.id) {
+      <app-task-card 
+        [task]="task"
+        (taskUpdated)="onTaskUpdated($event)"
+        (taskDeleted)="onTaskDeleted($event)">
+      </app-task-card>
+    }
+  }
+</div>

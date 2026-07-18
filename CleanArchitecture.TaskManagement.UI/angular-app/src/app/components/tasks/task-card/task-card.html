@@ -1,0 +1,33 @@
+<div class="task-card" [class.completed]="task.isCompleted">
+  
+  <div class="task-card-header">
+    
+    <!-- Checkbox -->
+    <input 
+      type="checkbox" 
+      [checked]="task.isCompleted"
+      (change)="toggleComplete()"
+      class="task-checkbox">
+    <!-- Task Info -->
+    <div class="task-info" (click)="isExpanded.set(!isExpanded())">
+      <h3 [class.strikethrough]="task.isCompleted">{{ task.title }}</h3>
+      
+      @if (task.dueDate) {
+        <span class="due-date">📅 Due: {{ task.dueDate | date:'mediumDate' }}</span>
+      }
+    </div>
+    <!-- Status Badge -->
+    <span class="badge" [class.badge-success]="task.isCompleted">
+      {{ task.isCompleted ? '✅ Done' : '⏳ Pending' }}
+    </span>
+    <!-- Delete Button -->
+    <button class="btn-danger-sm" (click)="deleteTask()">🗑️</button>
+  </div>
+  <!-- Expandable Description -->
+  @if (isExpanded() && task.description) {
+    <div class="task-description">
+      <p>{{ task.description }}</p>
+      <small>Created: {{ task.createdAt | date:'medium' }}</small>
+    </div>
+  }
+</div>

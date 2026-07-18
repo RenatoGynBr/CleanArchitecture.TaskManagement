@@ -1,0 +1,239 @@
+/* You can add global styles to this file, and also import other style files */
+// Variables
+$primary: #4F46E5;
+$success: #10B981;
+$warning: #F59E0B;
+$danger: #EF4444;
+$bg: #F9FAFB;
+$text: #1F2937;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: $bg;
+  color: $text;
+}
+// Auth
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.auth-card {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 420px;
+  h2 { font-size: 1.75rem; margin-bottom: 0.25rem; }
+  .subtitle { color: #6B7280; margin-bottom: 1.5rem; }
+}
+// Forms
+.form-group {
+  margin-bottom: 1rem;
+  
+  label { 
+    display: block; 
+    font-weight: 500; 
+    margin-bottom: 0.4rem;
+    font-size: 0.9rem;
+  }
+  
+  input, textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1.5px solid #E5E7EB;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+    
+    &:focus { 
+      outline: none; 
+      border-color: $primary; 
+    }
+    
+    &.invalid { border-color: $danger; }
+  }
+}
+.error-text { color: $danger; font-size: 0.8rem; }
+// Buttons
+.btn-primary {
+  width: 100%;
+  padding: 0.8rem;
+  background: $primary;
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  
+  &:hover { opacity: 0.9; }
+  &:disabled { opacity: 0.5; cursor: not-allowed; }
+}
+.btn-outline {
+  padding: 0.6rem 1.2rem;
+  background: transparent;
+  border: 1.5px solid $primary;
+  color: $primary;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+// Dashboard
+.dashboard {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  
+  h1 { font-size: 2rem; }
+  p { color: #6B7280; }
+  
+  .header-actions { display: flex; gap: 1rem; }
+}
+// Stats
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+.stat-card {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  
+  .stat-number { 
+    display: block;
+    font-size: 2.5rem; 
+    font-weight: 700; 
+    color: $primary;
+  }
+  
+  .stat-label { color: #6B7280; font-size: 0.9rem; }
+  
+  &.success .stat-number { color: $success; }
+  &.warning .stat-number { color: $warning; }
+}
+// Task Card
+.task-card {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  border-left: 4px solid $primary;
+  transition: transform 0.2s;
+  
+  &:hover { transform: translateX(4px); }
+  &.completed { border-left-color: $success; opacity: 0.7; }
+}
+.task-card-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  
+  .task-info { 
+    flex: 1; 
+    cursor: pointer;
+  }
+  
+  h3 { font-size: 1rem; }
+  .strikethrough { text-decoration: line-through; color: #9CA3AF; }
+  .due-date { font-size: 0.8rem; color: #6B7280; }
+}
+// Badges
+.badge {
+  padding: 0.3rem 0.7rem;
+  border-radius: 2rem;
+  font-size: 0.75rem;
+  background: #FEF3C7;
+  color: #D97706;
+  
+  &.badge-success { 
+    background: #D1FAE5; 
+    color: #065F46; 
+  }
+}
+// Filter
+.filter-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  
+  button {
+    padding: 0.5rem 1rem;
+    border: 1.5px solid #E5E7EB;
+    background: white;
+    border-radius: 2rem;
+    cursor: pointer;
+    font-size: 0.85rem;
+    
+    &.active {
+      background: $primary;
+      color: white;
+      border-color: $primary;
+    }
+  }
+}
+// Alerts
+.alert {
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  
+  &.alert-error { 
+    background: #FEE2E2; 
+    color: #B91C1C; 
+  }
+}
+// Task Form Card
+.task-form-card {
+  background: white;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  
+  h3 { margin-bottom: 1rem; }
+  
+  .btn-primary { width: auto; padding: 0.7rem 2rem; }
+}
+// Misc
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: #9CA3AF;
+}
+.loading-spinner {
+  text-align: center;
+  padding: 2rem;
+  color: $primary;
+}
+.auth-link {
+  text-align: center;
+  margin-top: 1rem;
+  color: #6B7280;
+  
+  a { color: $primary; text-decoration: none; font-weight: 500; }
+}
+.btn-danger-sm {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  opacity: 0.6;
+  
+  &:hover { opacity: 1; }
+}

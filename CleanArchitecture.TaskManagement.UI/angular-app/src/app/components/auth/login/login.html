@@ -1,0 +1,54 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Welcome Back 👋</h2>
+    <p class="subtitle">Sign in to your account</p>
+    <!-- Error Message -->
+    <div *ngIf="errorMessage() as err" class="alert alert-error">
+      {{ err }}
+    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          id="email"
+          type="email" 
+          formControlName="email"
+          placeholder="you@example.com"
+          [class.invalid]="emailControl?.invalid && emailControl?.touched">
+        
+        <span *ngIf="emailControl?.invalid && emailControl?.touched" class="error-text">Please enter a valid email</span>
+      </div>
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input 
+          id="password"
+          type="password" 
+          formControlName="password"
+          placeholder="••••••••"
+          [class.invalid]="passwordControl?.invalid && passwordControl?.touched">
+        
+        <span *ngIf="passwordControl?.invalid && passwordControl?.touched" class="error-text">Password must be at least 6 characters</span>
+      </div>
+      <!-- Submit Button -->
+      <button 
+        type="submit" 
+        class="btn-primary"
+        [disabled]="loginForm.invalid || isLoading()">
+        
+        <ng-container *ngIf="isLoading(); else notLoading">
+          <span>Signing in...</span>
+        </ng-container>
+        <ng-template #notLoading>
+          <span>Sign In</span>
+        </ng-template>
+      </button>
+    </form>
+    <p class="auth-link">
+      Don't have an account? 
+      <a routerLink="/register">Create one</a>
+    </p>
+  </div>
+</div>
