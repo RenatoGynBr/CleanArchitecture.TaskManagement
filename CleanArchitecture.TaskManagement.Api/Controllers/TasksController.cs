@@ -95,7 +95,8 @@ public sealed class TasksController : ControllerBase
     }
 
 
-    [HttpPatch("{id:int}/complete")]
+    //[HttpPatch("{id:int}/complete")]
+    [HttpPut("{id}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<IActionResult> Complete(
