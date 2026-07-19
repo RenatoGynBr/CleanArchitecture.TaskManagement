@@ -1,4 +1,5 @@
 ﻿using CleanArchitecture.TaskManagement.Api.Contracts.Tasks;
+using CleanArchitecture.TaskManagement.Application.Common;
 using CleanArchitecture.TaskManagement.Application.Tasks;
 using CleanArchitecture.TaskManagement.Application.Tasks.CompleteTask;
 using CleanArchitecture.TaskManagement.Application.Tasks.CreateTask;
@@ -14,15 +15,24 @@ public sealed class TasksController : ControllerBase
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<IActionResult> Create(
         [FromBody] CreateTaskRequest request,
         [FromServices] ICreateTaskUseCase useCase,
+        [FromServices] ICurrentUserService currentUser,
         CancellationToken cancellationToken)
     {
+        var userId = currentUser.UserId;
+        if (userId is null)
+        {
+            return Unauthorized(new { error = "User is not authenticated." });
+        }
+
         var command = new CreateTaskCommand(
             request.Title,
             request.Description,
-            request.UserId,
+            //request.UserId,
+            userId.Value,
             request.DueDate);
 
         var result = await useCase.ExecuteAsync(
@@ -63,6 +73,27 @@ public sealed class TasksController : ControllerBase
 
         return Ok(result.Value);
     }
+
+    // GET api/tasks
+    [HttpGet]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetAll(
+        [FromServices] IGetAllTasks useCase,
+        [FromServices] ICurrentUserService currentUser,
+        CancellationToken cancellationToken)
+    {
+        var userId = currentUser.UserId;
+        if (userId is null)
+        {
+            return Unauthorized(new { error = "User is not authenticated." });
+        }
+
+        var tasks = await useCase.ExecuteAsync(userId.Value, cancellationToken);
+
+        return Ok(tasks);
+    }
+
 
     [HttpPatch("{id:int}/complete")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]

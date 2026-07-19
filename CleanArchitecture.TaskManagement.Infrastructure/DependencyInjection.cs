@@ -1,5 +1,6 @@
 ﻿using CleanArchitecture.TaskManagement.Application.Abstractions.Persistence;
 using CleanArchitecture.TaskManagement.Application.Abstractions.Security;
+using CleanArchitecture.TaskManagement.Application.Tokens;
 using CleanArchitecture.TaskManagement.Infrastructure.Persistence;
 using CleanArchitecture.TaskManagement.Infrastructure.Persistence.Repositories;
 using CleanArchitecture.TaskManagement.Infrastructure.Security;
@@ -34,6 +35,7 @@ public static class DependencyInjection
             provider => provider.GetRequiredService<ApplicationDbContext>());
 
         services.AddScoped<IPasswordHasher, PasswordHasher>();
+        services.AddSingleton<ITokenService, JwtTokenService>();
 
         return services;
     }

@@ -1,8 +1,10 @@
 ﻿using CleanArchitecture.TaskManagement.Api.Contracts;
 using CleanArchitecture.TaskManagement.Application.Abstractions.Persistence;
 using CleanArchitecture.TaskManagement.Application.Abstractions.Security;
+using CleanArchitecture.TaskManagement.Application.Tokens;
 using CleanArchitecture.TaskManagement.Domain.Models;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace CleanArchitecture.TaskManagement.Api.Controllers
 {
@@ -41,6 +43,7 @@ namespace CleanArchitecture.TaskManagement.Api.Controllers
             return Created(string.Empty, response);
         }
 
+        /*
         [HttpPost("login")]
         public async Task<IActionResult> Login(
             [FromBody] LoginRequest request,
@@ -69,6 +72,34 @@ namespace CleanArchitecture.TaskManagement.Api.Controllers
                 fullName = user.FullName,
                 email = user.Email,
                 //token = placeholderToken
+            };
+
+            return Ok(response);
+        }
+        */
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(
+            [FromBody] LoginRequest request,
+            [FromServices] IUserRepository userRepository,
+            [FromServices] IPasswordHasher passwordHasher,
+            [FromServices] ITokenService tokenService,
+            CancellationToken cancellationToken)
+        {
+            var user = await userRepository.GetByEmailAsync(request.Email, cancellationToken);
+            if (user is null) return Unauthorized(new { error = "Invalid credentials." });
+
+            if (!passwordHasher.Verify(request.Password, user.PasswordHash))
+                return Unauthorized(new { error = "Invalid credentials." });
+
+            var placeholderToken = tokenService.GenerateToken(user);
+
+            var response = new
+            {
+                id = user.Id,
+                fullName = user.FullName,
+                email = user.Email,
+                token = placeholderToken
             };
 
             return Ok(response);

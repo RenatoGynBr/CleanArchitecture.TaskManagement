@@ -13,6 +13,7 @@ public static class DependencyInjection
     {
         services.AddScoped<ICreateTaskUseCase, CreateTaskUseCase>();
         services.AddScoped<IGetTaskByIdUseCase, GetTaskByIdUseCase>();
+        services.AddScoped<IGetAllTasks, GetAllTasks>();
         services.AddScoped<IDeleteTaskUseCase, DeleteTaskUseCase>();
         services.AddScoped<DeleteTaskUseCase>();
         services.AddScoped<CompleteTaskUseCase>();
