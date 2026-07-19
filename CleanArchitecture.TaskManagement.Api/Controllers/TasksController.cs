@@ -89,9 +89,9 @@ public sealed class TasksController : ControllerBase
             return Unauthorized(new { error = "User is not authenticated." });
         }
 
-        var tasks = await useCase.ExecuteAsync(userId.Value, cancellationToken);
+        var result = await useCase.ExecuteAsync(userId.Value, cancellationToken);
 
-        return Ok(tasks);
+        return Ok(result.Value);
     }
 
 
