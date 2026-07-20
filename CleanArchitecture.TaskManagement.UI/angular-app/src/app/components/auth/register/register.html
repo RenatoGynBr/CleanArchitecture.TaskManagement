@@ -1,0 +1,61 @@
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Welcome</h2>
+    <p class="subtitle">Create your account</p>
+    <!-- Error Message -->
+    <div *ngIf="errorMessage() as err" class="alert alert-error">
+      {{ err }}
+    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+      <!-- Fullname Field -->
+      <div class="form-group">
+        <label for="fullname">Full Name</label>
+        <input id="fullname"
+               type="text"
+               formControlName="fullname"
+               placeholder="John Doe"
+               [class.invalid]="fullnameControl?.invalid && fullnameControl?.touched">
+      </div>
+
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input id="email"
+               type="email"
+               formControlName="email"
+               placeholder="you@example.com"
+               [class.invalid]="emailControl?.invalid && emailControl?.touched">
+
+        <span *ngIf="emailControl?.invalid && emailControl?.touched" class="error-text">Please enter a valid email</span>
+      </div>
+      <!-- Password Field -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password"
+               type="password"
+               formControlName="password"
+               placeholder="••••••••"
+               [class.invalid]="passwordControl?.invalid && passwordControl?.touched">
+
+        <span *ngIf="passwordControl?.invalid && passwordControl?.touched" class="error-text">Password must be at least 6 characters</span>
+      </div>
+      <!-- Submit Button -->
+      <button type="submit"
+              class="btn-primary"
+              [disabled]="registerForm.invalid || isLoading()">
+
+        <ng-container *ngIf="isLoading(); else notLoading">
+          <span>Creating account...</span>
+        </ng-container>
+        <ng-template #notLoading>
+          <span>Sign Up</span>
+        </ng-template>
+      </button>
+    </form>
+    <p class="auth-link">
+      Already have an account?
+      <a routerLink="/login">Sign in</a>
+    </p>
+  </div>
+</div>
