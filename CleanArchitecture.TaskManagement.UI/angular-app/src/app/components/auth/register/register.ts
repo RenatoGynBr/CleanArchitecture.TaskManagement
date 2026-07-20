@@ -11,7 +11,7 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
-export class Register {
+export class RegisterComponent {
 
   // Signals for reactive state
   isLoading = signal(false);

@@ -1,6 +1,6 @@
 <div class="auth-container">
   <div class="auth-card">
-    <h2>Welcome</h2>
+    <h2>New User</h2>
     <p class="subtitle">Create your account</p>
     <!-- Error Message -->
     <div *ngIf="errorMessage() as err" class="alert alert-error">
@@ -14,7 +14,7 @@
         <input id="fullname"
                type="text"
                formControlName="fullname"
-               placeholder="John Doe"
+               placeholder="Jennifer Lopez"
                [class.invalid]="fullnameControl?.invalid && fullnameControl?.touched">
       </div>
 
